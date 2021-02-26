@@ -1,0 +1,23 @@
+{
+  "Port": 9117,
+  "AllowExternal": true,
+  "APIKey": "9svrwbj0gmfbyta8yy1rql8apqxq85ok",
+  "AdminPassword": null,
+  "InstanceId": "5jflqgag75om0s5vf79556jo3wh8uk9al2vefh1bi3j96gmder9pqg8smfz8o2se",
+  "BlackholeDir": "",
+  "UpdateDisabled": true,
+  "UpdatePrerelease": false,
+  "BasePathOverride": "",
+  "CacheEnabled": true,
+  "CacheTtl": 2100,
+  "CacheMaxResultsPerIndexer": 1000,
+  "FlareSolverrUrl": "http://flaresolverr:8191",
+  "OmdbApiKey": "",
+  "OmdbApiUrl": "",
+  "ProxyType": -1,
+  "ProxyUrl": "host",
+  "ProxyPort": 1083,
+  "ProxyUsername": "",
+  "ProxyPassword": "",
+  "ProxyIsAnonymous": true
+}

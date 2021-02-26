@@ -1,0 +1,98 @@
+version: "3.9"
+
+services:
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    hostname: jackett
+    environment:
+      # std4453:std4453
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./jackett:/config
+    networks:
+      - public
+    # expose: 9117
+    extra_hosts:
+      - host:host-gateway # access host socks5 proxy
+    restart: unless-stopped
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    hostname: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+    networks:
+      - public
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr:preview # Sonarr v3
+    container_name: sonarr
+    hostname: sonarr
+    environment:
+      # std4453:std4453
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    networks:
+      - public
+    # expose: 8989
+    volumes:
+      - ./sonarr:/config
+      - ./downloads:/downloads
+    extra_hosts:
+      - host:host-gateway # access host socks5 proxy
+    restart: unless-stopped
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    hostname: transmission
+    environment:
+      - TRANSMISSION_WEB_HOME=/combustion-release/
+    env_file:
+      - ./transmission.env
+    environment:
+      # std4453:std4453
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    networks:
+      - public
+    # expose: 9091
+    ports:
+      # required for bittorrent connections
+      - 51413:51413
+      - 51413:51413/udp
+    volumes:
+      - ./transmission:/config
+      - ./downloads:/downloads
+    restart: unless-stopped
+
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    hostname: jellyfin
+    user: 1000:1000 # std4453:std4453
+    group_add:
+      - 989 # render, unnecessary perhaps
+    networks:
+      - public
+    # expose: 8096
+    volumes:
+      - ./jellyfin/web-config.json:/jellyfin/jellyfin-web/config.json
+      - ./jellyfin/config:/config
+      - ./jellyfin/cache:/cache
+      - ./downloads/complete:/media
+    devices:
+      - /dev/dri:/dev/dri # HW Accel, although not enabled currently
+    restart: unless-stopped
+
+networks:
+  public:
+    external: true
