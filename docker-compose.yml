@@ -49,27 +49,26 @@ services:
       - host:host-gateway # access host socks5 proxy
     restart: unless-stopped
 
-  transmission:
-    image: linuxserver/transmission
-    container_name: transmission
-    hostname: transmission
-    env_file:
-      - ./transmission.env
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    hostname: qbittorrent
     environment:
       # std4453:std4453
       - PUID=1000
       - PGID=1000
+      - WEBUI_PORT=8080
       - TZ=Asia/Shanghai
       - TRANSMISSION_WEB_HOME=/combustion-release/
     networks:
       - public
     ports:
-      - 9091:9091
+      - 8080:8080
       # required for bittorrent connections
-      - 51413:51413
-      - 51413:51413/udp
+      - 6881:6881
+      - 6881:6881/udp
     volumes:
-      - ./transmission:/config
+      - ./qbittorrent:/config
       - ./downloads:/downloads
     restart: unless-stopped
 
