@@ -53,8 +53,6 @@ services:
     image: linuxserver/transmission
     container_name: transmission
     hostname: transmission
-    environment:
-      - TRANSMISSION_WEB_HOME=/combustion-release/
     env_file:
       - ./transmission.env
     environment:
@@ -62,10 +60,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Shanghai
+      - TRANSMISSION_WEB_HOME=/combustion-release/
     networks:
       - public
-    # expose: 9091
     ports:
+      - 9091:9091
       # required for bittorrent connections
       - 51413:51413
       - 51413:51413/udp
@@ -75,7 +74,7 @@ services:
     restart: unless-stopped
 
   jellyfin:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:10.7.0-rc3
     container_name: jellyfin
     hostname: jellyfin
     user: 1000:1000 # std4453:std4453
@@ -89,6 +88,7 @@ services:
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
       - ./downloads/complete:/media
+      - ./jellyfin/fonts:/fonts
     devices:
       - /dev/dri:/dev/dri # HW Accel, although not enabled currently
     restart: unless-stopped
