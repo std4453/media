@@ -49,8 +49,26 @@ services:
       - host:host-gateway # access host socks5 proxy
     restart: unless-stopped
 
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: bazarr
+    hostname: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    networks:
+      - public
+    # expose: 676
+    volumes:
+      - ./bazarr:/config
+      - ./downloads:/downloads
+    extra_hosts:
+      - host:host-gateway # access host socks5 proxy
+    restart: unless-stopped
+
   qbittorrent:
-    image: linuxserver/qbittorrent
+    image: ghcr.io/linuxserver/qbittorrent
     container_name: qbittorrent
     hostname: qbittorrent
     environment:
