@@ -45,6 +45,7 @@ services:
     volumes:
       - ./sonarr:/config
       - ./downloads:/downloads
+      - ./media:/media
     extra_hosts:
       - host:host-gateway # access host socks5 proxy
     restart: unless-stopped
@@ -63,12 +64,13 @@ services:
     volumes:
       - ./bazarr:/config
       - ./downloads:/downloads
+      - ./media:/media
     extra_hosts:
       - host:host-gateway # access host socks5 proxy
     restart: unless-stopped
 
   qbittorrent:
-    image: ghcr.io/linuxserver/qbittorrent
+    image: linuxserver/qbittorrent
     container_name: qbittorrent
     hostname: qbittorrent
     environment:
@@ -88,6 +90,7 @@ services:
     volumes:
       - ./qbittorrent:/config
       - ./downloads:/downloads
+      - ./media:/media
     restart: unless-stopped
 
   jellyfin:
@@ -104,7 +107,7 @@ services:
       - ./jellyfin/web-config.json:/jellyfin/jellyfin-web/config.json
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
-      - ./downloads/complete:/media
+      - ./media:/media
       - ./jellyfin/fonts:/fonts
     devices:
       - /dev/dri:/dev/dri # HW Accel, although not enabled currently
