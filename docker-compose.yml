@@ -109,6 +109,8 @@ services:
       - ./jellyfin/cache:/cache
       - ./media:/media
       - ./jellyfin/fonts:/fonts
+      - /usr/share/fonts:/usr/share/fonts
+      - /usr/share/fontconfig:/usr/share/fontconfig
     devices:
       - /dev/dri:/dev/dri # HW Accel, although not enabled currently
     restart: unless-stopped
