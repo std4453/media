@@ -115,6 +115,20 @@ services:
       - /dev/dri:/dev/dri # HW Accel, although not enabled currently
     restart: unless-stopped
 
+  mikanarr:
+    image: std4453/mikanarr:latest
+    container_name: mikanarr
+    hostname: mikanarr
+    user: 1000:1000
+    networks:
+      - public
+    volumes:
+      - ./mikanarr/data:/usr/src/app/data
+    env_file: ./mikanarr/.env
+    environment: 
+      SONARR_HOST: http://sonarr:8989
+    restart: unless-stopped
+
 networks:
   public:
     external: true
