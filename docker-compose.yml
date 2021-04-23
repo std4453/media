@@ -94,19 +94,22 @@ services:
     restart: unless-stopped
 
   jellyfin:
-    image: jellyfin/jellyfin:10.7.0-rc3
+    image: std4453/jellyfin-vaapi:latest
     container_name: jellyfin
     hostname: jellyfin
-    user: 1000:1000 # std4453:std4453
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
     group_add:
       - 989 # render, unnecessary perhaps
     networks:
       - public
     # expose: 8096
     volumes:
-      - ./jellyfin/web-config.json:/jellyfin/jellyfin-web/config.json
-      - ./jellyfin/config:/config
-      - ./jellyfin/cache:/cache
+      - ./jellyfin/web-config.json:/usr/share/jellyfin/web/config.json
+      - ./jellyfin/config:/config/config
+      - ./jellyfin/cache:/config/cache
       - ./media:/media
       - ./jellyfin/fonts:/fonts
       - /usr/share/fonts:/usr/share/fonts
